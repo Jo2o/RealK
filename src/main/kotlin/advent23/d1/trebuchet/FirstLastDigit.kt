@@ -3,9 +3,8 @@ package advent23.d1.trebuchet
 import java.nio.file.Path
 import kotlin.io.path.bufferedReader
 
-var result = 0
-
 fun main() {
+    var result = 0
     println("Current working directory: ${System.getProperty("user.dir")}")
     Path.of("src/main/kotlin/advent23/d1/trebuchet/in.txt")
         .bufferedReader()
