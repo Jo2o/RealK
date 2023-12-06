@@ -6,24 +6,23 @@ import kotlin.io.path.bufferedReader
 val FILE_PATH = "src/main/kotlin/advent23/d3/engine/in.txt"
 val DOT = '.'
 
+
 fun main() {
     val numbersWithIndexes = mutableListOf<List<IndexedNumber>>()
-    Path.of(FILE_PATH)
-        .bufferedReader()
+    Path.of(FILE_PATH).bufferedReader()
         .forEachLine {
-            numbersWithIndexes.add(loadIndexedNumbers(it))
+            numbersWithIndexes.add(loadIndexedNumbers(".$it."))   // add '.' before and after line
         }
 
-    val lineLength = firstLineLength(FILE_PATH) + 2   // adding '.' to start and end of line
+    val lineLength = firstLineLength(FILE_PATH) + 2
     val threeLinesBuffer = mutableListOf<String>()
-    threeLinesBuffer.add(".".repeat(lineLength))      // adding first line full of '.'
+    threeLinesBuffer.add(".".repeat(lineLength))
 
     val numbers = mutableListOf<Int>()
     var counter = -2
-    Path.of(FILE_PATH)
-        .bufferedReader()
+    Path.of(FILE_PATH).bufferedReader()
         .forEachLine {
-            threeLinesBuffer.add(".$it.")            // adding '.' to start and end of line
+            threeLinesBuffer.add(".$it.")                         // add '.' before and after line
             counter++
             if (threeLinesBuffer.size == 3) {
                 println(threeLinesBuffer[0])
@@ -31,7 +30,7 @@ fun main() {
                 threeLinesBuffer.removeFirst()
             }
         }
-    threeLinesBuffer.add(".".repeat(lineLength))     // adding last line full of '.'
+    threeLinesBuffer.add(".".repeat(lineLength))
     counter++
     println(threeLinesBuffer[0])
     numbers.addAll(collectNumbersWithAdjacentSymbols(numbersWithIndexes[counter], threeLinesBuffer))
@@ -85,7 +84,7 @@ fun loadIndexedNumbers(line: String): List<IndexedNumber> {
         }
         if (!currentChar.isDigit() && numberLoadingActive) {
             indexedNumbers.add(
-                IndexedNumber(buffer, buffer.toInt(), startIdx + 1, currentIdx))    // adding '.' to start and end of line
+                IndexedNumber(buffer, buffer.toInt(), startIdx, currentIdx - 1))
             buffer = ""
             numberLoadingActive = false
             continue
